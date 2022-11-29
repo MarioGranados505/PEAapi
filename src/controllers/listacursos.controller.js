@@ -3,6 +3,7 @@ import { pool } from "../db.js"
 
 export const getListaCursos = async (req, res) => {
     const [rows] = await pool.query('Select * FROM listacursos')
+    res.set('Access-Control-Allow-Origin', 'https://mariogranados.000webhostapp.com/');
     res.json(rows)
 }
 
@@ -12,18 +13,19 @@ export const getListaCurso = async (req, res) => {
     if (rows.length <= 0) return res.status(404).json({
         message: 'Valor no encontrado'
     })
-
+    res.set('Access-Control-Allow-Origin', 'https://mariogranados.000webhostapp.com/');
     res.json(rows[0])
 }
 
 export const createListaCurso = async(req, res) => {
+    res.set('Access-Control-Allow-Origin', 'https://mariogranados.000webhostapp.com/');
     const {idcurso, nombre, maestro, des, imagen} = req.body
     const [rows] = await pool.query('INSERT INTO listacursos (idcurso, nombre, maestro, des, imagen) VALUES (?, ?, ?, ?, ?)',[idcurso, nombre, maestro, des, imagen])
     res.send({ rows })
 }
 
 export const deleteListaCurso = async (req, res) => {
-
+    res.set('Access-Control-Allow-Origin', 'https://mariogranados.000webhostapp.com/');
     const [result] = await pool.query('DELETE FROM listacursos where idcurso = ?', [req.params.id])
 
     if(result.affectedRows <= 0) return res.status(404).json({
@@ -34,6 +36,7 @@ export const deleteListaCurso = async (req, res) => {
 }
 
 export const updateListaCurso = async (req, res) => {
+    res.set('Access-Control-Allow-Origin', 'https://mariogranados.000webhostapp.com/');
     const{ idcurso } = req.params
     const{ nombre, maestro, des, imagen} = req.body
     
@@ -46,6 +49,6 @@ export const updateListaCurso = async (req, res) => {
     })
 
     const [rows] = await pool.query('SELECT * FROM listacursos WHERE idcurso = ?', [id])
-
+    res.set('Access-Control-Allow-Origin', 'https://mariogranados.000webhostapp.com/');
     res.json(rows[0])
 }

@@ -3,6 +3,7 @@ import { pool } from "../db.js"
 
 export const getusuarioscursos = async (req, res) => {
     const [rows] = await pool.query('SELECT * FROM usuariosencursos')
+    res.set('Access-Control-Allow-Origin', 'https://mariogranados.000webhostapp.com/');
     res.json(rows)
 }
 
@@ -13,7 +14,7 @@ export const getunusuariocurso = async (req, res) => {
     if (rows.length <= 0) return res.status(404).json({
         message: 'Valor no encontrado'
     })
-
+    res.set('Access-Control-Allow-Origin', 'https://mariogranados.000webhostapp.com/');
     res.json(rows[0])
 
 }
@@ -24,13 +25,14 @@ export const getUsuarioCursos = async (req, res) =>{
     if (rows.length <= 0) return res.status(404).json({
         message: 'Valor no encontrado'
     })
-
+    res.set('Access-Control-Allow-Origin', 'https://mariogranados.000webhostapp.com/');
     res.json(rows)
 }
 
 export const createUsuariocurso = async(req, res) => {
     const {idcurso, idusuario} = req.body
     const [rows] = await pool.query('INSERT INTO usuariosencursos (idcurso, idusuario) VALUES (?, ?)',[idcurso, idusuario])
+    res.set('Access-Control-Allow-Origin', 'https://mariogranados.000webhostapp.com/');
     res.send({ rows })
 }
 
@@ -41,6 +43,6 @@ export const deleteUsuariocurso = async (req, res) => {
     if(result.affectedRows <= 0) return res.status(404).json({
         message: 'Valor no entontrado'
     })
-
+    res.set('Access-Control-Allow-Origin', 'https://mariogranados.000webhostapp.com/');
     res.send('Valor eliminado')
 }
