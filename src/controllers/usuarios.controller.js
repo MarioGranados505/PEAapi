@@ -3,7 +3,6 @@ import { pool } from "../db.js"
 
 export const getUsuarios = async (req, res) => {
     const [rows] = await pool.query('Select * FROM usuarios')
-    res.set('Access-Control-Allow-Origin', 'https://mariogranados.000webhostapp.com/');
     res.json(rows)
 }
 
@@ -13,7 +12,6 @@ export const getUsuario = async (req, res) => {
     if (rows.length <= 0) return res.status(404).json({
         message: 'Valor no encontrado'
     })
-    res.set('Access-Control-Allow-Origin', 'https://mariogranados.000webhostapp.com/');
     res.json(rows[0])
 }
 
@@ -23,14 +21,12 @@ export const getUsuarioLogin = async (req, res) => {
     if (rows.length <= 0) return res.status(404).json({
         message: 'Valor no encontrado'
     })
-    res.set('Access-Control-Allow-Origin', 'https://mariogranados.000webhostapp.com/');
     res.json(rows[0])
 }
 
 export const createUsuario = async(req, res) => {
     const {Nombre, Apellido, Correo, Password} = req.body
     const [rows] = await pool.query('INSERT INTO usuarios (Nombre, Apellido, Correo, Password) VALUES (?, ?, ?, ?)',[Nombre, Apellido, Correo, Password])
-    res.set('Access-Control-Allow-Origin', 'https://mariogranados.000webhostapp.com/');
     res.send({ rows })
 }
 
@@ -41,7 +37,6 @@ export const deleteUsuario = async (req, res) => {
     if(result.affectedRows <= 0) return res.status(404).json({
         message: 'Valor no entontrado'
     })
-    res.set('Access-Control-Allow-Origin', 'https://mariogranados.000webhostapp.com/');
     res.send('Valor eliminado')
 }
 
@@ -58,6 +53,5 @@ export const updateUsuario = async (req, res) => {
     })
 
     const [rows] = await pool.query('SELECT * FROM Usuarios WHERE Idusuario = ?', [id])
-    res.set('Access-Control-Allow-Origin', 'https://mariogranados.000webhostapp.com/');
     res.json(rows[0])
 }
