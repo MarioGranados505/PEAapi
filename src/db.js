@@ -7,5 +7,8 @@ export const pool = createPool({ //equivalente a create connection
     user: DB_USER,
     password: DB_PASSWORD,
     port: DB_PORT,
-    database: DB_DATABASE
+    database: DB_DATABASE,
+    ssl: {
+        rejectUnauthorized:true
+    }
 })
