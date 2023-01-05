@@ -18,7 +18,16 @@ export const getunusuariocurso = async (req, res) => {
 }
 
 export const getUsuarioCursos = async (req, res) =>{
-    const [rows] = await pool.query('SELECT listacursos.idcurso, listacursos.nombre, listacursos.maestro, listacursos.des, listacursos.imagen FROM listacursos, usuariosencursos WHERE listacursos.idcurso = usuariosencursos.idcurso and usuariosencursos.idusuario = ?', [req.params.id])
+    const [rows] = await pool.query('SELECT listacursos.idcurso, listacursos.nombrecurso, usuarios.nombre, usuarios.apellido, listacursos.des, listacursos.imagen FROM listacursos, usuariosencursos, usuarios WHERE listacursos.idcurso = usuariosencursos.idcurso and listacursos.idusuario = usuarios.Idusuario and usuariosencursos.idusuario = ?', [req.params.id])
+
+    if (rows.length <= 0) return res.status(404).json({
+        message: 'Valor no encontrado'
+    })
+    res.json(rows)
+}
+
+export const getUsuarioCursosCreados = async (req, res) => {
+    const [rows] = await pool.query('SELECT nombrecurso, des, imagen FROM peabd.listacursos, peabd.usuarios WHERE listacursos.idusuario = usuarios.idusuario AND usuarios.idusuario = ?', [req.params.id])
 
     if (rows.length <= 0) return res.status(404).json({
         message: 'Valor no encontrado'
@@ -35,6 +44,15 @@ export const createUsuariocurso = async(req, res) => {
 export const deleteUsuariocurso = async (req, res) => {
 
     const [result] = await pool.query('DELETE FROM usuariosencursos where id = ?', [req.params.id])
+
+    if(result.affectedRows <= 0) return res.status(404).json({
+        message: 'Valor no entontrado'
+    })
+    res.send('Valor eliminado')
+}
+
+export const deleteAllUsuariocurso = async (req, res) =>{
+    const [result] = await pool.query('DELETE FROM usuariosencursos where idcurso = ?', [req.params.id])
 
     if(result.affectedRows <= 0) return res.status(404).json({
         message: 'Valor no entontrado'
